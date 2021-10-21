@@ -27,25 +27,51 @@ public class RobotPath {
                 scan = new Scanner(f);
             } catch (IOException e) {
                 System.out.println("file not found");
-            } finally {
-                System.out.println("File read successfully.");
             }
 
-            scan.nextLine();
-            nrows = scan.nextInt();
-            ncols = scan.nextInt();
+            String tempLine = scan.nextLine();
+            Scanner temp = new Scanner(tempLine);
+            //get dimension data
+            temp.next();
+            nrows = temp.nextInt();
+            temp.next();
+            ncols = temp.nextInt();
             grid = new String[nrows][ncols];
-            scan.nextLine();
-            start[0] = scan.nextInt();
-            start[1] = scan.nextInt();
-            grid[start[0]][start[1]] = "S";
-            scan.nextLine();
-            dest[0] = scan.nextInt();
-            dest[1] = scan.nextInt();
-            grid[dest[0]][dest[1]] = "D";
+            for(int i = 0; i < nrows; i++){
+                for(int j = 0; j < ncols; j++){
+                    grid[i][j] = "0";
+                }
+            }
+            temp.close();
 
+            //get start location
+            tempLine = scan.nextLine();
+            temp = new Scanner(tempLine);
+            temp.next();
+            start[0] = temp.nextInt();
+            start[1] = temp.nextInt();
+            grid[start[0]][start[1]] = "S";
+            temp.close();
+
+
+            //get destination location
+            tempLine = scan.nextLine();
+            temp = new Scanner(tempLine);
+            temp.next();
+            dest[0] = temp.nextInt();
+            dest[1] = temp.nextInt();
+            grid[dest[0]][dest[1]] = "D";
+            temp.close();
+
+            //get obstacle locations
             scan.nextLine();
-            while(scan.nextLine() != null){
+            while(scan.hasNextLine()){
+                tempLine = scan.nextLine();
+                System.out.println(tempLine);
+
+                temp = new Scanner(tempLine);
+                grid[temp.nextInt()][temp.nextInt()] = "*";
+                temp.close();
 
             }
 
@@ -60,6 +86,11 @@ public class RobotPath {
         }
 
         public void output(){
-
+            for(int i = 0; i < nrows; i++){
+                for(int j = 0; j < ncols; j++){
+                    System.out.print(grid[i][j] + "    ");
+                }
+                System.out.print("\n");
+            }
         }
 }
