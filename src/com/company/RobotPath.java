@@ -80,14 +80,14 @@ public class RobotPath {
         public void initGrid(){
             for(int i = 0; i < nrows; i++){
                 for(int j = 0; j < ncols; j++){
-                    grid[i][j] = new Node(i, j, "0");
+                    grid[i][j] = new Node(i, j, " 0");
                 }
             }
             for (int[] ob:obstacles) {
-                grid[ob[0]][ob[1]].setValue("*");
+                grid[ob[0]][ob[1]].setValue(" *");
             }
-            grid[start[0]][start[1]].setValue("S");
-            grid[dest[0]][dest[1]].setValue("D");
+            grid[start[0]][start[1]].setValue(" S");
+            grid[dest[0]][dest[1]].setValue(" D");
         }
 
 
@@ -104,7 +104,7 @@ public class RobotPath {
 
         public void findShortestPaths(ArrayList<ArrayList<Node>> paths, ArrayList<Node> path, Map<Node, ArrayList<Node>> parents, Node curr){
 
-            if(curr.getValue().equals("D")){
+            if(curr.getValue().equals(" D")){
                 paths.add(new ArrayList<>(path));
                 return;
             }
@@ -137,23 +137,23 @@ public class RobotPath {
                 int[] east = {curr_row, curr_col + 1};
 
                 if(!(north[0] < 0 || north[0] > nrows-1)){
-                    if(!grid[north[0]][north[1]].getValue().equals("*") && !grid[north[0]][north[1]].getValue().equals(null)){
+                    if(!grid[north[0]][north[1]].getValue().equals(" *") && !grid[north[0]][north[1]].getValue().equals(null)){
                         neighbors.add(grid[north[0]][north[1]]);
                     }
 
                 }
                 if(!(south[0] < 0 || south[0] > nrows-1)){
-                    if(!grid[south[0]][south[1]].getValue().equals("*") && !grid[south[0]][south[1]].getValue().equals(null)){
+                    if(!grid[south[0]][south[1]].getValue().equals(" *") && !grid[south[0]][south[1]].getValue().equals(null)){
                         neighbors.add(grid[south[0]][south[1]]);
                     }
                 }
                 if(!(west[1] < 0 || west[1] > ncols-1)){
-                    if(!grid[west[0]][west[1]].getValue().equals("*") && !grid[west[0]][west[1]].getValue().equals(null)){
+                    if(!grid[west[0]][west[1]].getValue().equals(" *") && !grid[west[0]][west[1]].getValue().equals(null)){
                         neighbors.add(grid[west[0]][west[1]]);
                     }
                 }
                 if(!(east[1] < 0 || east[1] > ncols-1)){
-                    if(!grid[east[0]][east[1]].getValue().equals("*") && !grid[east[0]][east[1]].getValue().equals(null)){
+                    if(!grid[east[0]][east[1]].getValue().equals(" *") && !grid[east[0]][east[1]].getValue().equals(null)){
                         neighbors.add(grid[east[0]][east[1]]);
                     }
                 }
@@ -374,54 +374,54 @@ public class RobotPath {
                         nextMove = "east";
                     }
 
-                    if(!plans.get(i).get(j).getValue().equals("0")){
+                    if(!plans.get(i).get(j).getValue().equals(" 0")){
                         String gridVal = grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].getValue();
                         if(nextMove.equals("north")){
-                            if(gridVal.equals("s")){
+                            if(gridVal.equals(" s")){
                                 grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].setValue("sn");
-                            }else if(gridVal.equals("w")){
+                            }else if(gridVal.equals(" w")){
                                 grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].setValue("nw");
-                            }else if(gridVal.equals("e")){
+                            }else if(gridVal.equals(" e")){
                                 grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].setValue("ne");
                             }
 
                         }else if(nextMove.equals("south")){
-                            if(gridVal.equals("n")){
+                            if(gridVal.equals(" n")){
                                 grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].setValue("sn");
-                            }else if(gridVal.equals("w")){
+                            }else if(gridVal.equals(" w")){
                                 grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].setValue("sw");
-                            }else if(gridVal.equals("e")){
+                            }else if(gridVal.equals(" e")){
                                 grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].setValue("se");
                             }
 
                         }else if(nextMove.equals("west")){
-                            if(gridVal.equals("s")){
+                            if(gridVal.equals(" s")){
                                 grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].setValue("sw");
-                            }else if(gridVal.equals("n")){
+                            }else if(gridVal.equals(" n")){
                                 grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].setValue("nw");
-                            }else if(gridVal.equals("e")){
+                            }else if(gridVal.equals(" e")){
                                 grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].setValue("we");
                             }
 
                         }else if(nextMove.equals("east")){
-                            if(gridVal.equals("s")){
+                            if(gridVal.equals(" s")){
                                 grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].setValue("se");
-                            }else if(gridVal.equals("n")){
+                            }else if(gridVal.equals(" n")){
                                 grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].setValue("ne");
-                            }else if(gridVal.equals("w")){
+                            }else if(gridVal.equals(" w")){
                                 grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].setValue("we");
                             }
 
                         }
                     }else{
                         if(nextMove.equals("north")){
-                            grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].setValue("n");
+                            grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].setValue(" n");
                         }else if(nextMove.equals("south")){
-                            grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].setValue("s");
+                            grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].setValue(" s");
                         }else if(nextMove.equals("west")){
-                            grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].setValue("w");
+                            grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].setValue(" w");
                         }else if(nextMove.equals("east")){
-                            grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].setValue("e");
+                            grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].setValue(" e");
                         }
                     }
                 }
