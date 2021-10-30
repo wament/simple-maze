@@ -9,7 +9,7 @@ public class RobotPath {
 
         File f;
         Scanner scan;
-        String [][] grid;
+        Node [][] grid;
         int nrows;
         int ncols;
         int [] start = new int[2];
@@ -37,10 +37,10 @@ public class RobotPath {
             nrows = temp.nextInt();
             temp.next();
             ncols = temp.nextInt();
-            grid = new String[nrows][ncols];
+            grid = new Node[nrows][ncols];
             for(int i = 0; i < nrows; i++){
                 for(int j = 0; j < ncols; j++){
-                    grid[i][j] = "0";
+                    grid[i][j] = new Node(i, j, "0");
                 }
             }
             temp.close();
@@ -51,7 +51,7 @@ public class RobotPath {
             temp.next();
             start[0] = temp.nextInt();
             start[1] = temp.nextInt();
-            grid[start[0]][start[1]] = "S";
+            grid[start[0]][start[1]].setValue("S");
             temp.close();
 
 
@@ -61,7 +61,7 @@ public class RobotPath {
             temp.next();
             dest[0] = temp.nextInt();
             dest[1] = temp.nextInt();
-            grid[dest[0]][dest[1]] = "D";
+            grid[dest[0]][dest[1]].setValue("D");
             temp.close();
 
             //get obstacle locations
@@ -69,7 +69,7 @@ public class RobotPath {
             while(scan.hasNextLine()){
                 tempLine = scan.nextLine();
                 temp = new Scanner(tempLine);
-                grid[temp.nextInt()][temp.nextInt()] = "*";
+                grid[temp.nextInt()][temp.nextInt()].setValue("*");
                 temp.close();
 
             }
@@ -98,16 +98,16 @@ public class RobotPath {
                 westPossible = true;
                 eastPossible = true;
 
-                if((north[0] < 0 || north[0] > nrows-1) || grid[north[0]][north[1]] == "*"){
+                if((north[0] < 0 || north[0] > nrows-1) || grid[north[0]][north[1]].getValue() == "*"){
                     northPossible = false;
                 }
-                if((south[0] < 0 || south[0] > nrows-1) || grid[south[0]][south[1]] == "*"){
+                if((south[0] < 0 || south[0] > nrows-1) || grid[south[0]][south[1]].getValue() == "*"){
                     southPossible = false;
                 }
-                if((west[1] < 0 || west[1] > ncols-1) || grid[west[0]][west[1]] == "*"){
+                if((west[1] < 0 || west[1] > ncols-1) || grid[west[0]][west[1]].getValue() == "*"){
                     northPossible = false;
                 }
-                if((east[1] < 0 || east[1] > ncols-1) || grid[east[0]][east[1]] == "*"){
+                if((east[1] < 0 || east[1] > ncols-1) || grid[east[0]][east[1]].getValue() == "*"){
                     northPossible = false;
                 }
 
@@ -170,18 +170,24 @@ public class RobotPath {
                 }
 
                 if(nextMove == "north"){
-                    grid[curr_row][curr_col] = "n";
                     curr_row = north[0];
                     curr_col = north[1];
+                    grid[curr_row][curr_col].setValue("n");
                 }else if(nextMove == "south"){
+
                     curr_row = south[0];
                     curr_col = south[1];
+                    grid[curr_row][curr_col].setValue("s");
                 }else if(nextMove == "west"){
+
                     curr_row = west[0];
                     curr_col = west[1];
+                    grid[curr_row][curr_col].setValue("w");
                 }else{
+
                     curr_row = east[0];
                     curr_col = east[1];
+                    grid[curr_row][curr_col].setValue("e");
                 }
 
 
@@ -191,9 +197,51 @@ public class RobotPath {
         public void output(){
             for(int i = 0; i < nrows; i++){
                 for(int j = 0; j < ncols; j++){
-                    System.out.print(grid[i][j] + "    ");
+                    System.out.print(grid[i][j].getValue() + "    ");
                 }
                 System.out.print("\n");
             }
         }
+}
+
+class Node{
+    private int row;
+    private int col;
+    private String value;
+    private int layer;
+    private boolean visited;
+    private Node parent;
+
+    public Node(int row, int col, String value){
+        this.row = row;
+        this.col = col;
+        this.value = value;
+        this.layer = -1;
+        this.visited = false;
+        parent = null;
+    }
+
+    public void setParent(Node parent){
+        this.parent = parent;
+    }
+
+    public void setValue(String newVal){
+        this.value = newVal;
+    }
+
+    public void appendValue(String newVal){
+        if(this.value == "n" && newVal == "e"){
+            this.value = "ne";
+        }else if (this.value == "n" && newVal == "w"){
+            this.value = "nw";
+        }else if (this.value == "n" && newVal == "s"){
+            this.value = "sn";
+        }
+
+        // same for others
+    }
+
+    public String getValue(){
+        return this.value;
+    }
 }
