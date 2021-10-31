@@ -18,11 +18,7 @@ public class RobotPath {
     ArrayList<ArrayList<Node>> paths = new ArrayList<>(); //holds a collection of shortest paths, filled within planShortest()
     Map<Node, ArrayList<Node>> children = new HashMap(); //holds the parent-child relationship of all nodes in the graph
 
-    public RobotPath() {
-    }
-
     public void readInput(String Filename) throws IOException {
-
         try {
             f = new File(Filename);
             scan = new Scanner(f);
@@ -245,12 +241,12 @@ public class RobotPath {
     public void planShortest() {
         initGrid(); //reset the grid before each pathfinder
         bfs(grid[start[0]][start[1]]); //run bfs call
-        findShortestPaths(paths, new ArrayList<>(), children, grid[start[0]][start[1]]); //find the shortest paths
+        findShortestPaths(paths, new ArrayList<>(), grid[start[0]][start[1]]); //find the shortest paths
         writeShortestPlans(paths); //set the value of the grid, according to the path directives
     }
 
 
-    public void findShortestPaths(ArrayList<ArrayList<Node>> paths, ArrayList<Node> path, Map<Node, ArrayList<Node>> parents, Node curr) {
+    public void findShortestPaths(ArrayList<ArrayList<Node>> paths, ArrayList<Node> path, Node curr) {
         if (curr.getValue().equals("D")) { //we have reached the end of the path
             paths.add(new ArrayList<>(path)); //add this path to the paths list
             return;
@@ -259,7 +255,7 @@ public class RobotPath {
         for (Node e : children.get(curr)) { //look at the children of the current node
             if (e.getLayer() > curr.getLayer()) {
                 path.add(e); //add the node to the path
-                findShortestPaths(paths, path, children, e); //recursive call on node e
+                findShortestPaths(paths, path,  e); //recursive call on node e
                 path.remove(path.size() - 1); //remove the destination from the path
             }
         }
@@ -284,22 +280,22 @@ public class RobotPath {
             int[] east = {curr_row, curr_col + 1};
 
             if (!(north[0] < 0 || north[0] > nrows - 1)) { //index out of bounds check
-                if (!grid[north[0]][north[1]].getValue().equals("*") && !grid[north[0]][north[1]].getValue().equals(null)) { //legal move check
+                if (!grid[north[0]][north[1]].getValue().equals("*")) { //legal move check
                     neighbors.add(grid[north[0]][north[1]]); //add legal neighbor
                 }
             }
             if (!(south[0] < 0 || south[0] > nrows - 1)) { //index out of bounds check
-                if (!grid[south[0]][south[1]].getValue().equals("*") && !grid[south[0]][south[1]].getValue().equals(null)) { //legal move check
+                if (!grid[south[0]][south[1]].getValue().equals("*")){ //legal move check
                     neighbors.add(grid[south[0]][south[1]]); //add legal neighbor
                 }
             }
             if (!(west[1] < 0 || west[1] > ncols - 1)) { //index out of bounds check
-                if (!grid[west[0]][west[1]].getValue().equals("*") && !grid[west[0]][west[1]].getValue().equals(null)) { //legal move check
+                if (!grid[west[0]][west[1]].getValue().equals("*")){ //legal move check
                     neighbors.add(grid[west[0]][west[1]]); //add legal neighbor
                 }
             }
             if (!(east[1] < 0 || east[1] > ncols - 1)) { //index out of bounds check
-                if (!grid[east[0]][east[1]].getValue().equals("*") && !grid[east[0]][east[1]].getValue().equals(null)) { //legal move check
+                if (!grid[east[0]][east[1]].getValue().equals("*")){ //legal move check
                     neighbors.add(grid[east[0]][east[1]]); //add legal neighbor
                 }
             }
@@ -307,7 +303,7 @@ public class RobotPath {
             children.put(n, neighbors); //store neighbor data
 
             for (Node u : neighbors) {
-                if (u.isVisited() == false) {
+                if (!u.isVisited()) {
                     u.visit(); //visit node u
                     u.setLayer(n.getLayer() + 1); //increment node u layer value
                     bfsData.add(u); //recursive bfs call for node u
@@ -400,7 +396,7 @@ public class RobotPath {
             for (int j = 0; j < ncols; j++) {
                 System.out.printf("%5s", grid[i][j].getValue());
             }
-            System.out.printf("\n");
+            System.out.print("\n");
         }
         System.out.println("\n");
     }
@@ -423,7 +419,7 @@ public class RobotPath {
             for (int j = 0; j < ncols; j++) {
                 System.out.printf("5%s", grid[i][j].getLayer());
             }
-            System.out.printf("\n");
+            System.out.print("\n");
         }
     }
 
@@ -439,7 +435,7 @@ public class RobotPath {
 class Node { //helper class to store node data
     private final int row;
     private final int col;
-    private String value = null;
+    private String value;
     private int layer;
     private boolean visited;
 
