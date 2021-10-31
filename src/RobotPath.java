@@ -228,7 +228,9 @@ public class RobotPath {
                 grid[east[0]][east[1]].visit();
                 quickpath.push(grid[east[0]][east[1]]);
             } else {
-                Node r = quickpath.pop(); //if no moves are selected (none of the moves are possible) then pop the top node (continue down a new branch of the path)
+                //if no moves are selected (none of the moves are possible)
+                // then pop the top node (continue down a new branch of the path)
+                Node r = quickpath.pop();
                 grid[r.getRow()][r.getCol()].setValue("0"); //reset the value of the node
             }
         }
@@ -343,6 +345,12 @@ public class RobotPath {
                             grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].setValue("nw");
                         } else if (gridVal.equals("e")) {
                             grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].setValue("ne");
+                        } else if(gridVal.equals("sw")){
+                            grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].setValue("snw");
+                        } else if(gridVal.equals("se")){
+                            grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].setValue("sne");
+                        }else if(gridVal.equals("we")){
+                            grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].setValue("nwe");
                         }
 
                     } else if (nextMove.equals("south")) {
@@ -352,6 +360,12 @@ public class RobotPath {
                             grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].setValue("sw");
                         } else if (gridVal.equals("e")) {
                             grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].setValue("se");
+                        } else if (gridVal.equals("ne")) {
+                            grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].setValue("sne");
+                        } else if (gridVal.equals("nw")) {
+                            grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].setValue("snw");
+                        } else if (gridVal.equals("we")) {
+                            grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].setValue("swe");
                         }
 
                     } else if (nextMove.equals("west")) {
@@ -361,6 +375,12 @@ public class RobotPath {
                             grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].setValue("nw");
                         } else if (gridVal.equals("e")) {
                             grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].setValue("we");
+                        } else if (gridVal.equals("se")) {
+                            grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].setValue("swe");
+                        } else if (gridVal.equals("sn")) {
+                            grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].setValue("snw");
+                        } else if (gridVal.equals("ne")) {
+                            grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].setValue("nwe");
                         }
 
                     } else if (nextMove.equals("east")) {
@@ -370,6 +390,12 @@ public class RobotPath {
                             grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].setValue("ne");
                         } else if (gridVal.equals("w")) {
                             grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].setValue("we");
+                        } else if (gridVal.equals("sw")) {
+                            grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].setValue("swe");
+                        } else if (gridVal.equals("sn")) {
+                            grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].setValue("sne");
+                        } else if (gridVal.equals("nw")) {
+                            grid[plans.get(i).get(j).getRow()][plans.get(i).get(j).getCol()].setValue("nwe");
                         }
 
                     }
